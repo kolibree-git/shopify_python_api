@@ -1,10 +1,10 @@
-import shopify
+import shopify_api
 
 
 class Limits(object):
     """
     API Calls Limit
-    https://help.shopify.com/en/api/getting-started/api-call-limit
+    https://help.shopify_api.com/en/api/getting-started/api-call-limit
 
     Conversion of lib/shopify_api/limits.rb
     """
@@ -14,9 +14,9 @@ class Limits(object):
 
     @classmethod
     def response(cls):
-        if not shopify.Shop.connection.response:
-            shopify.Shop.current()
-        return shopify.Shop.connection.response
+        if not shopify_api.Shop.connection.response:
+            shopify_api.Shop.current()
+        return shopify_api.Shop.connection.response
 
     @classmethod
     def api_credit_limit_param(cls):
@@ -24,7 +24,7 @@ class Limits(object):
         _safe_header = getattr(response, "headers", '')
 
         if not _safe_header:
-            raise Exception("No shopify headers found")
+            raise Exception("No shopify_api headers found")
 
         if cls.CREDIT_LIMIT_HEADER_PARAM in response.headers:
             credits = response.headers[cls.CREDIT_LIMIT_HEADER_PARAM]

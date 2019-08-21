@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 
 class ApiPermissionTest(TestCase):
@@ -11,4 +11,4 @@ class ApiPermissionTest(TestCase):
             body='{}'
         )
 
-        shopify.ApiPermission.delete()
+        shopify_api.ApiPermission.delete()

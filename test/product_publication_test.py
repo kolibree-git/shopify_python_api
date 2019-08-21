@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 import json
 from test.test_helper import TestCase
 
@@ -9,7 +9,7 @@ class ProductPublicationTest(TestCase):
             method='GET',
             body= self.load_fixture('product_publications')
         )
-        product_publications = shopify.ProductPublication.find(publication_id=55650051)
+        product_publications = shopify_api.ProductPublication.find(publication_id=55650051)
 
         self.assertEqual(647162527768, product_publications[0].id)
         self.assertEqual(8267093571, product_publications[0].product_id)
@@ -21,7 +21,7 @@ class ProductPublicationTest(TestCase):
             body=self.load_fixture('product_publication'),
             code=200
         )
-        product_publication = shopify.ProductPublication.find(647162527768, publication_id=55650051)
+        product_publication = shopify_api.ProductPublication.find(647162527768, publication_id=55650051)
 
         self.assertEqual(647162527768, product_publication.id)
         self.assertEqual(8267093571, product_publication.product_id)
@@ -35,7 +35,7 @@ class ProductPublicationTest(TestCase):
             code=201
         )
 
-        product_publication = shopify.ProductPublication.create({
+        product_publication = shopify_api.ProductPublication.create({
             'publication_id': 55650051,
             'published_at': "2018-01-29T14:06:08-05:00",
             'published': True,
@@ -59,7 +59,7 @@ class ProductPublicationTest(TestCase):
             body=self.load_fixture('product_publication'),
             code=200
         )
-        product_publication = shopify.ProductPublication.find(647162527768, publication_id=55650051)
+        product_publication = shopify_api.ProductPublication.find(647162527768, publication_id=55650051)
 
         self.fake(
             'publications/55650051/product_publications/647162527768',

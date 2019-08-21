@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 import json
 from test.test_helper import TestCase
 
@@ -9,7 +9,7 @@ class CollectionPublicationTest(TestCase):
             method='GET',
             body= self.load_fixture('collection_publications')
         )
-        collection_publications = shopify.CollectionPublication.find(publication_id=55650051)
+        collection_publications = shopify_api.CollectionPublication.find(publication_id=55650051)
 
         self.assertEqual(96062799894, collection_publications[0].id)
         self.assertEqual(60941828118, collection_publications[0].collection_id)
@@ -21,7 +21,7 @@ class CollectionPublicationTest(TestCase):
             body=self.load_fixture('collection_publication'),
             code=200
         )
-        collection_publication = shopify.CollectionPublication.find(96062799894, publication_id=55650051)
+        collection_publication = shopify_api.CollectionPublication.find(96062799894, publication_id=55650051)
 
         self.assertEqual(96062799894, collection_publication.id)
         self.assertEqual(60941828118, collection_publication.collection_id)
@@ -35,7 +35,7 @@ class CollectionPublicationTest(TestCase):
             code=201
         )
 
-        collection_publication = shopify.CollectionPublication.create({
+        collection_publication = shopify_api.CollectionPublication.create({
             'publication_id': 55650051,
             'published_at': "2018-01-29T14:06:08-05:00",
             'published': True,
@@ -59,7 +59,7 @@ class CollectionPublicationTest(TestCase):
             body=self.load_fixture('collection_publication'),
             code=200
         )
-        collection_publication = shopify.CollectionPublication.find(96062799894, publication_id=55650051)
+        collection_publication = shopify_api.CollectionPublication.find(96062799894, publication_id=55650051)
 
         self.fake(
             'publications/55650051/collection_publications/96062799894',

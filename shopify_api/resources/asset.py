@@ -26,7 +26,7 @@ class Asset(ShopifyResource):
         """
         Find an asset by key
         E.g.
-            shopify.Asset.find('layout/theme.liquid', theme_id=99)
+            shopify_api.Asset.find('layout/theme.liquid', theme_id=99)
         """
         if not key:
             return super(Asset, cls).find(**kwargs)

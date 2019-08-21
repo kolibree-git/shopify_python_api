@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 
 class ProductTest(TestCase):
@@ -7,12 +7,12 @@ class ProductTest(TestCase):
         super(ProductTest, self).setUp()
 
         self.fake("products/632910392", body=self.load_fixture('product'))
-        self.product = shopify.Product.find(632910392)
+        self.product = shopify_api.Product.find(632910392)
 
     def test_add_metafields_to_product(self):
         self.fake("products/632910392/metafields", method='POST', code=201, body=self.load_fixture('metafield'), headers={'Content-type': 'application/json'})
 
-        field = self.product.add_metafield(shopify.Metafield({'namespace': "contact", 'key': "email", 'value': "123@example.com", 'value_type': "string"}))
+        field = self.product.add_metafield(shopify_api.Metafield({'namespace': "contact", 'key': "email", 'value': "123@example.com", 'value_type': "string"}))
 
         self.assertFalse(field.is_new())
         self.assertEqual("contact", field.namespace)
@@ -26,7 +26,7 @@ class ProductTest(TestCase):
 
         self.assertEqual(2, len(metafields))
         for field in metafields:
-            self.assertTrue(isinstance(field, shopify.Metafield))
+            self.assertTrue(isinstance(field, shopify_api.Metafield))
 
     def test_get_metafields_for_product_with_params(self):
         self.fake("products/632910392/metafields.json?limit=2", extension=False, body=self.load_fixture('metafields'))
@@ -34,7 +34,7 @@ class ProductTest(TestCase):
         metafields = self.product.metafields(limit=2)
         self.assertEqual(2, len(metafields))
         for field in metafields:
-            self.assertTrue(isinstance(field, shopify.Metafield))
+            self.assertTrue(isinstance(field, shopify_api.Metafield))
 
     def test_get_metafields_for_product_count(self):
         self.fake("products/632910392/metafields/count", body=self.load_fixture('metafields_count'))
@@ -58,5 +58,5 @@ class ProductTest(TestCase):
     def test_add_variant_to_product(self):
         self.fake("products/632910392/variants", method='POST', body=self.load_fixture('variant'), headers={'Content-type': 'application/json'})
         self.fake("products/632910392/variants/808950810", method='PUT', code=200, body=self.load_fixture('variant'), headers={'Content-type': 'application/json'})
-        v = shopify.Variant()
+        v = shopify_api.Variant()
         self.assertTrue(self.product.add_variant(v))

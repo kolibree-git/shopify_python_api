@@ -1,6 +1,6 @@
 from ..base import ShopifyResource
-from shopify import mixins
-import shopify
+from shopify_api import mixins
+import shopify_api
 
 
 class Product(ShopifyResource, mixins.Metafields, mixins.Events):
@@ -16,10 +16,10 @@ class Product(ShopifyResource, mixins.Metafields, mixins.Events):
             return f % min_price
 
     def collections(self):
-        return shopify.CustomCollection.find(product_id=self.id)
+        return shopify_api.CustomCollection.find(product_id=self.id)
 
     def smart_collections(self):
-        return shopify.SmartCollection.find(product_id=self.id)
+        return shopify_api.SmartCollection.find(product_id=self.id)
 
     def add_to_collection(self, collection):
         return collection.add_product(self)

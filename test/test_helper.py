@@ -3,7 +3,7 @@ import sys
 import unittest
 from pyactiveresource.activeresource import ActiveResource
 from pyactiveresource.testing import http_fake
-import shopify
+import shopify_api
 
 class TestCase(unittest.TestCase):
 
@@ -11,10 +11,10 @@ class TestCase(unittest.TestCase):
         ActiveResource.site = None
         ActiveResource.headers=None
 
-        shopify.ShopifyResource.clear_session()
-        shopify.ShopifyResource.site = "https://this-is-my-test-show.myshopify.com/admin/api/unstable"
-        shopify.ShopifyResource.password = None
-        shopify.ShopifyResource.user = None
+        shopify_api.ShopifyResource.clear_session()
+        shopify_api.ShopifyResource.site = "https://this-is-my-test-show.myshopify.com/admin/api/unstable"
+        shopify_api.ShopifyResource.password = None
+        shopify_api.ShopifyResource.user = None
 
         http_fake.initialize()
         self.http = http_fake.TestHandler
@@ -44,7 +44,7 @@ class TestCase(unittest.TestCase):
 
         headers = {}
         if kwargs.pop('has_user_agent', True):
-            userAgent = 'ShopifyPythonAPI/%s Python/%s' % (shopify.VERSION, sys.version.split(' ', 1)[0])
+            userAgent = 'ShopifyPythonAPI/%s Python/%s' % (shopify_api.VERSION, sys.version.split(' ', 1)[0])
             headers['User-agent'] = userAgent
 
         try:

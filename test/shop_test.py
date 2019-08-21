@@ -1,14 +1,14 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 
 class ShopTest(TestCase):
     def setUp(self):
         super(ShopTest, self).setUp()
         self.fake("shop")
-        self.shop = shopify.Shop.current()
+        self.shop = shopify_api.Shop.current()
 
     def test_current_should_return_current_shop(self):
-        self.assertTrue(isinstance(self.shop,shopify.Shop))
+        self.assertTrue(isinstance(self.shop, shopify_api.Shop))
         self.assertEqual("Apple Computers", self.shop.name)
         self.assertEqual("apple.myshopify.com", self.shop.myshopify_domain)
         self.assertEqual(690933842, self.shop.id)
@@ -22,12 +22,12 @@ class ShopTest(TestCase):
 
         self.assertEqual(2, len(metafields))
         for field in metafields:
-            self.assertTrue(isinstance(field, shopify.Metafield))
+            self.assertTrue(isinstance(field, shopify_api.Metafield))
 
     def test_add_metafield(self):
         self.fake("metafields", method='POST', code=201, body=self.load_fixture('metafield'), headers={'Content-type': 'application/json'})
 
-        field = self.shop.add_metafield( shopify.Metafield({'namespace': "contact", 'key': "email", 'value': "123@example.com", 'value_type': "string"}))
+        field = self.shop.add_metafield(shopify_api.Metafield({'namespace': "contact", 'key': "email", 'value': "123@example.com", 'value_type': "string"}))
 
         self.assertFalse(field.is_new())
         self.assertEqual("contact", field.namespace)
@@ -41,4 +41,4 @@ class ShopTest(TestCase):
 
         self.assertEqual(3, len(events))
         for event in events:
-            self.assertTrue(isinstance(event, shopify.Event))
+            self.assertTrue(isinstance(event, shopify_api.Event))

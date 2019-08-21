@@ -1,8 +1,8 @@
 import pyactiveresource.connection
 from pyactiveresource.activeresource import ActiveResource, ResourceMeta, formats
-import shopify.yamlobjects
-import shopify.mixins as mixins
-import shopify
+import shopify_api.yamlobjects
+import shopify_api.mixins as mixins
+import shopify_api
 import threading
 import sys
 from six.moves import urllib
@@ -44,7 +44,7 @@ class ShopifyResourceMeta(ResourceMeta):
             local.version = cls.version
             local.url = cls.url
             if cls.site is None:
-                raise ValueError("No shopify session is active")
+                raise ValueError("No shopify_api session is active")
             local.connection = ShopifyConnection(
                 cls.site, cls.user, cls.password, cls.timeout, cls.format)
         return local.connection
@@ -162,14 +162,14 @@ class ShopifyResourceMeta(ResourceMeta):
         ShopifyResource._url = cls._threadlocal.url = value
 
     url = property(get_url, set_url, None,
-                      'Base URL including protocol and shopify domain')
+                      'Base URL including protocol and shopify_api domain')
 
 
 @six.add_metaclass(ShopifyResourceMeta)
 class ShopifyResource(ActiveResource, mixins.Countable):
     _format = formats.JSONFormat
     _threadlocal = threading.local()
-    _headers = {'User-Agent': 'ShopifyPythonAPI/%s Python/%s' % (shopify.VERSION, sys.version.split(' ', 1)[0])}
+    _headers = {'User-Agent': 'ShopifyPythonAPI/%s Python/%s' % (shopify_api.VERSION, sys.version.split(' ', 1)[0])}
     _version = None
     _url = None
 

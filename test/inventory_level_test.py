@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 import json
 from six.moves.urllib.parse import urlencode
 from test.test_helper import TestCase
@@ -14,7 +14,7 @@ class InventoryLevelTest(TestCase):
             extension='',
             body=self.load_fixture('inventory_levels')
         )
-        inventory_levels = shopify.InventoryLevel.find(
+        inventory_levels = shopify_api.InventoryLevel.find(
             inventory_item_ids='808950810,39072856',
             location_ids='905684977,487838322'
         )
@@ -29,7 +29,7 @@ class InventoryLevelTest(TestCase):
             body=self.load_fixture('inventory_level'),
             headers={'Content-type': 'application/json'}
         )
-        inventory_level = shopify.InventoryLevel.adjust(905684977, 808950810, 5)
+        inventory_level = shopify_api.InventoryLevel.adjust(905684977, 808950810, 5)
         self.assertEqual(inventory_level.available, 6)
 
     def test_inventory_level_connect(self):
@@ -40,7 +40,7 @@ class InventoryLevelTest(TestCase):
             headers={'Content-type': 'application/json'},
             code=201
         )
-        inventory_level = shopify.InventoryLevel.connect(905684977, 808950810)
+        inventory_level = shopify_api.InventoryLevel.connect(905684977, 808950810)
         self.assertEqual(inventory_level.available, 6)
 
     def test_inventory_level_set(self):
@@ -50,12 +50,12 @@ class InventoryLevelTest(TestCase):
             body=self.load_fixture('inventory_level'),
             headers={'Content-type': 'application/json'},
         )
-        inventory_level = shopify.InventoryLevel.set(905684977, 808950810, 6)
+        inventory_level = shopify_api.InventoryLevel.set(905684977, 808950810, 6)
         self.assertEqual(inventory_level.available, 6)
 
     def test_destroy_inventory_level(self):
         inventory_level_response = json.loads(self.load_fixture('inventory_level').decode())
-        inventory_level = shopify.InventoryLevel(inventory_level_response['inventory_level'])
+        inventory_level = shopify_api.InventoryLevel(inventory_level_response['inventory_level'])
 
         query_params = urlencode({
             'inventory_item_id': inventory_level.inventory_item_id,

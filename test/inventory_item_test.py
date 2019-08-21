@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 
 class InventoryItemTest(TestCase):
@@ -9,7 +9,7 @@ class InventoryItemTest(TestCase):
             method='GET',
             body=self.load_fixture('inventory_item')
         )
-        inventory_item = shopify.InventoryItem.find(123456789)
+        inventory_item = shopify_api.InventoryItem.find(123456789)
         self.assertEqual(inventory_item.sku, "IPOD2008PINK")
 
     def test_fetch_inventory_item_ids(self):
@@ -19,5 +19,5 @@ class InventoryItemTest(TestCase):
             method='GET',
             body=self.load_fixture('inventory_items')
         )
-        inventory_items = shopify.InventoryItem.find(ids='123456789,234567891')
+        inventory_items = shopify_api.InventoryItem.find(ids='123456789,234567891')
         self.assertEqual(3, len(inventory_items))

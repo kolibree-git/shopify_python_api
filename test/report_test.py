@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 
 class CustomerSavedSearchTest(TestCase):
@@ -8,7 +8,7 @@ class CustomerSavedSearchTest(TestCase):
                   method='GET',
                   code=200,
                   body=self.load_fixture('report'))
-        report = shopify.Report.find(987)
+        report = shopify_api.Report.find(987)
         self.assertEqual(987, report.id)
 
     def test_get_reports(self):
@@ -16,7 +16,7 @@ class CustomerSavedSearchTest(TestCase):
                   method='GET',
                   code=200,
                   body=self.load_fixture('reports'))
-        reports = shopify.Report.find()
+        reports = shopify_api.Report.find()
         self.assertEqual('custom_app_reports', reports[0].category)
 
     def test_create_report(self):
@@ -25,7 +25,7 @@ class CustomerSavedSearchTest(TestCase):
                   code=201,
                   body=self.load_fixture('report'),
                   headers={'Content-type': 'application/json'})
-        report = shopify.Report.create({
+        report = shopify_api.Report.create({
             "name": "Custom App Report",
             "shopify_ql": "SHOW quantity_count, total_sales BY product_type, vendor, product_title FROM products SINCE -1m UNTIL -0m ORDER BY total_sales DESC"
         })
@@ -40,5 +40,5 @@ class CustomerSavedSearchTest(TestCase):
                   method='DELETE',
                   code=200,
                   body='[]')
-        report = shopify.Report.find(987)
+        report = shopify_api.Report.find(987)
         self.assertTrue(report.destroy)

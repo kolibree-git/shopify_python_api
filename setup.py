@@ -1,7 +1,7 @@
 from setuptools import setup
 
 NAME='ShopifyAPI'
-exec(open('shopify/version.py').read())
+exec(open('shopify_api/version.py').read())
 DESCRIPTION='Shopify API for Python'
 LONG_DESCRIPTION="""\
 The ShopifyAPI library allows python developers to programmatically
@@ -15,9 +15,9 @@ setup(name=NAME,
       description=DESCRIPTION,
       long_description=LONG_DESCRIPTION,
       author='Shopify',
-      author_email='developers@shopify.com',
+      author_email='developers@shopify_api.com',
       url='https://github.com/Shopify/shopify_python_api',
-      packages=['shopify', 'shopify/resources'],
+      packages=['shopify_api', 'shopify_api/resources'],
       scripts=['scripts/shopify_api.py'],
       license='MIT License',
       install_requires=[

@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 import json
 from test.test_helper import TestCase
 
@@ -6,10 +6,10 @@ class GraphQLTest(TestCase):
 
     def setUp(self):
         super(GraphQLTest, self).setUp()
-        shopify.ApiVersion.define_known_versions()
-        shopify_session = shopify.Session('this-is-my-test-show.myshopify.com', 'unstable', 'token')
-        shopify.ShopifyResource.activate_session(shopify_session)
-        client = shopify.GraphQL()
+        shopify_api.ApiVersion.define_known_versions()
+        shopify_session = shopify_api.Session('this-is-my-test-show.myshopify.com', 'unstable', 'token')
+        shopify_api.ShopifyResource.activate_session(shopify_session)
+        client = shopify_api.GraphQL()
         self.fake(
             'graphql', 
             method='POST', 

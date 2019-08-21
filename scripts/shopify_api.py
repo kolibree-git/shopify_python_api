@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import shopify
+import shopify_api
 import code
 import sys
 import os
@@ -13,7 +13,7 @@ import six
 from six.moves import input, map
 
 def start_interpreter(**variables):
-    console = type('shopify ' + shopify.version.VERSION, (code.InteractiveConsole, object), {})
+    console = type('shopify_api ' + shopify_api.version.VERSION, (code.InteractiveConsole, object), {})
     import readline
     console(variables).interact()
 
@@ -88,7 +88,7 @@ class TasksMeta(type):
 
 @six.add_metaclass(TasksMeta)
 class Tasks(object):
-    _shop_config_dir = os.path.join(os.environ["HOME"], ".shopify", "shops")
+    _shop_config_dir = os.path.join(os.environ["HOME"], ".shopify_api", "shops")
     _default_symlink = os.path.join(_shop_config_dir, "default")
     _default_api_version = "2019-04"
 
@@ -194,15 +194,15 @@ class Tasks(object):
             config = yaml.safe_load(f.read())
         print("using %s" % (config["domain"]))
         session = cls._session_from_config(config)
-        shopify.ShopifyResource.activate_session(session)
+        shopify_api.ShopifyResource.activate_session(session)
 
-        start_interpreter(shopify=shopify)
+        start_interpreter(shopify=shopify_api)
 
     @classmethod
     @usage("version")
     def version(cls, connection=None):
-        """output the shopify library version"""
-        print(shopify.version.VERSION)
+        """output the shopify_api library version"""
+        print(shopify_api.version.VERSION)
 
     @classmethod
     def _available_connections(cls):
@@ -233,7 +233,7 @@ class Tasks(object):
 
     @classmethod
     def _session_from_config(cls, config):
-        session = shopify.Session(config.get("domain"), config.get("api_version", cls._default_api_version))
+        session = shopify_api.Session(config.get("domain"), config.get("api_version", cls._default_api_version))
         session.protocol = config.get("protocol", "https")
         session.api_key = config.get("api_key")
         session.token = config.get("password")

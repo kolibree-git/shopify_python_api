@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from ..base import ShopifyResource
 from six.moves import urllib
 import json
@@ -6,8 +6,8 @@ import json
 class GraphQL():
 
     def __init__(self):
-        self.endpoint = (shopify.ShopifyResource.get_site() + "/graphql.json")
-        self.headers = shopify.ShopifyResource.get_headers()
+        self.endpoint = (shopify_api.ShopifyResource.get_site() + "/graphql.json")
+        self.headers = shopify_api.ShopifyResource.get_headers()
 
     def merge_headers(self, *headers):
         merged_headers = {}

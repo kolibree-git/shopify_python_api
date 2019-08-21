@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 from pyactiveresource.activeresource import ActiveResource
 
@@ -9,7 +9,7 @@ class FulFillmentTest(TestCase):
         self.fake("orders/450789469/fulfillments/255858046", method='GET', body=self.load_fixture('fulfillment'))
 
     def test_able_to_open_fulfillment(self):
-        fulfillment = shopify.Fulfillment.find(255858046, order_id=450789469)
+        fulfillment = shopify_api.Fulfillment.find(255858046, order_id=450789469)
 
         success = self.load_fixture('fulfillment')
         success = success.replace(b'pending',b'open')
@@ -20,7 +20,7 @@ class FulFillmentTest(TestCase):
         self.assertEqual('open', fulfillment.status)
 
     def test_able_to_complete_fulfillment(self):
-        fulfillment = shopify.Fulfillment.find(255858046, order_id=450789469)
+        fulfillment = shopify_api.Fulfillment.find(255858046, order_id=450789469)
 
         success = self.load_fixture('fulfillment')
         success = success.replace(b'pending',b'success')
@@ -31,7 +31,7 @@ class FulFillmentTest(TestCase):
         self.assertEqual('success', fulfillment.status)
     
     def test_able_to_cancel_fulfillment(self):
-        fulfillment = shopify.Fulfillment.find(255858046, order_id=450789469)
+        fulfillment = shopify_api.Fulfillment.find(255858046, order_id=450789469)
 
         cancelled = self.load_fixture('fulfillment')
         cancelled = cancelled.replace(b'pending', b'cancelled')

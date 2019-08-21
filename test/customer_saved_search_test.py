@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 
 class CustomerSavedSearchTest(TestCase):
@@ -20,4 +20,4 @@ class CustomerSavedSearchTest(TestCase):
 
     def load_customer_saved_search(self):
         self.fake('customer_saved_searches/8899730', body=self.load_fixture('customer_saved_search'))
-        self.customer_saved_search = shopify.CustomerSavedSearch.find(8899730)
+        self.customer_saved_search = shopify_api.CustomerSavedSearch.find(8899730)

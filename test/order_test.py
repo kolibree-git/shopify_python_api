@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 from pyactiveresource.activeresource import ActiveResource
 from pyactiveresource.util import xml_to_dict
@@ -15,7 +15,7 @@ class OrderTest(TestCase):
               </note-attribute>
             </note-attributes>
           </order>"""
-        order = shopify.Order(xml_to_dict(order_xml)["order"])
+        order = shopify_api.Order(xml_to_dict(order_xml)["order"])
 
         self.assertEqual(1, len(order.note_attributes))
 
@@ -24,9 +24,9 @@ class OrderTest(TestCase):
         self.assertEqual("large", note_attribute.value)
 
     def test_should_be_able_to_add_note_attributes_to_an_order(self):
-        order = shopify.Order()
+        order = shopify_api.Order()
         order.note_attributes = []
-        order.note_attributes.append(shopify.NoteAttribute({'name': "color", 'value': "blue"}))
+        order.note_attributes.append(shopify_api.NoteAttribute({'name': "color", 'value': "blue"}))
 
         order_xml = xml_to_dict(order.to_xml())
         note_attributes = order_xml["order"]["note_attributes"]
@@ -38,12 +38,12 @@ class OrderTest(TestCase):
 
     def test_get_order(self):
         self.fake('orders/450789469', method='GET', body=self.load_fixture('order'))
-        order = shopify.Order.find(450789469)
+        order = shopify_api.Order.find(450789469)
         self.assertEqual('bob.norman@hostmail.com', order.email)
 
     def test_get_order_transaction(self):
         self.fake('orders/450789469', method='GET', body=self.load_fixture('order'))
-        order = shopify.Order.find(450789469)
+        order = shopify_api.Order.find(450789469)
         self.fake('orders/450789469/transactions', method='GET', body=self.load_fixture('transaction'))
         transactions = order.transactions()
         self.assertEqual("409.94", transactions[0].amount)

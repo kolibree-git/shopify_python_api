@@ -1,10 +1,10 @@
 from test.test_helper import TestCase
-import shopify
+import shopify_api
 
 class DiscountCodeCreationTest(TestCase):
     def test_find_batch_job_discount_codes(self):
         self.fake('price_rules/1213131', body=self.load_fixture('price_rule'))
-        price_rule = shopify.PriceRule.find(1213131)
+        price_rule = shopify_api.PriceRule.find(1213131)
 
         self.fake('price_rules/1213131/batch/989355119', body=self.load_fixture('discount_code_creation'))
         batch = price_rule.find_batch(989355119)

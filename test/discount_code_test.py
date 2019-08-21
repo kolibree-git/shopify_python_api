@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 import json
 from test.test_helper import TestCase
 
@@ -7,10 +7,10 @@ class DiscountCodeTest(TestCase):
     def setUp(self):
         super(DiscountCodeTest, self).setUp()
         self.fake("price_rules/1213131/discount_codes/34", method='GET', body=self.load_fixture('discount_code'))
-        self.discount_code = shopify.DiscountCode.find(34, price_rule_id=1213131)
+        self.discount_code = shopify_api.DiscountCode.find(34, price_rule_id=1213131)
 
     def test_find_a_specific_discount_code(self):
-        discount_code = shopify.DiscountCode.find(34, price_rule_id=1213131)
+        discount_code = shopify_api.DiscountCode.find(34, price_rule_id=1213131)
         self.assertEqual("25OFF", discount_code.code)
 
     def test_update_a_specific_discount_code(self):

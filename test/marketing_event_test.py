@@ -1,4 +1,4 @@
-import shopify
+import shopify_api
 import json
 from test.test_helper import TestCase
 
@@ -9,18 +9,18 @@ class MarketingEventTest(TestCase):
 
     def test_get_marketing_event(self):
         self.fake('marketing_events/1', method='GET', body=self.load_fixture('marketing_event'))
-        marketing_event = shopify.MarketingEvent.find(1)
+        marketing_event = shopify_api.MarketingEvent.find(1)
         self.assertEqual(marketing_event.id, 1)
 
     def test_get_marketing_events(self):
         self.fake('marketing_events', method='GET', body=self.load_fixture('marketing_events'))
-        marketing_events = shopify.MarketingEvent.find()
+        marketing_events = shopify_api.MarketingEvent.find()
         self.assertEqual(len(marketing_events), 2)
 
     def test_create_marketing_event(self):
         self.fake('marketing_events', method='POST', body=self.load_fixture('marketing_event'), headers={ 'Content-type': 'application/json' })
 
-        marketing_event = shopify.MarketingEvent()
+        marketing_event = shopify_api.MarketingEvent()
         marketing_event.currency_code = 'GBP'
         marketing_event.event_target = 'facebook'
         marketing_event.event_type = 'post'
@@ -34,7 +34,7 @@ class MarketingEventTest(TestCase):
         self.fake('marketing_events/1', method='GET', body=self.load_fixture('marketing_event'))
         self.fake('marketing_events/1', method='DELETE', body='destroyed')
 
-        marketing_event = shopify.MarketingEvent.find(1)
+        marketing_event = shopify_api.MarketingEvent.find(1)
         marketing_event.destroy()
 
         self.assertEqual('DELETE', self.http.request.get_method())
@@ -43,14 +43,14 @@ class MarketingEventTest(TestCase):
         self.fake('marketing_events/1', method='GET', code=200, body=self.load_fixture('marketing_event'))
         self.fake('marketing_events/1', method='PUT', code=200, body=self.load_fixture('marketing_event'), headers={'Content-type': 'application/json'})
 
-        marketing_event = shopify.MarketingEvent.find(1)
+        marketing_event = shopify_api.MarketingEvent.find(1)
         marketing_event.currency = 'USD'
 
         self.assertTrue(marketing_event.save())
 
     def test_count_marketing_events(self):
         self.fake('marketing_events/count', method='GET', body='{"count": 2}')
-        marketing_events_count = shopify.MarketingEvent.count()
+        marketing_events_count = shopify_api.MarketingEvent.count()
         self.assertEqual(marketing_events_count, 2)
 
     def test_add_engagements(self):
@@ -63,7 +63,7 @@ class MarketingEventTest(TestCase):
           headers={'Content-type': 'application/json'}
         )
 
-        marketing_event = shopify.MarketingEvent.find(1)
+        marketing_event = shopify_api.MarketingEvent.find(1)
         response = marketing_event.add_engagements([{
             'occurred_on': '2017-04-20',
             'impressions_count': None,

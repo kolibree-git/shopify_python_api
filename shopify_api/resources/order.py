@@ -1,5 +1,5 @@
 from ..base import ShopifyResource
-from shopify import mixins
+from shopify_api import mixins
 from .transaction import Transaction
 
 

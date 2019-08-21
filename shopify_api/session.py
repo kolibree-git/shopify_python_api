@@ -9,7 +9,7 @@ except ImportError:
 import re
 from contextlib import contextmanager
 from six.moves import urllib
-from shopify.api_version import ApiVersion, Release, Unstable
+from shopify_api.api_version import ApiVersion, Release, Unstable
 import six
 
 class ValidationException(Exception):
@@ -30,16 +30,16 @@ class Session(object):
     @classmethod
     @contextmanager
     def temp(cls, domain, version, token):
-        import shopify
-        original_domain = shopify.ShopifyResource.url
-        original_token = shopify.ShopifyResource.get_headers().get('X-Shopify-Access-Token')
-        original_version = shopify.ShopifyResource.get_version() or version
-        original_session = shopify.Session(original_domain, original_version, original_token)
+        import shopify_api
+        original_domain = shopify_api.ShopifyResource.url
+        original_token = shopify_api.ShopifyResource.get_headers().get('X-Shopify-Access-Token')
+        original_version = shopify_api.ShopifyResource.get_version() or version
+        original_session = shopify_api.Session(original_domain, original_version, original_token)
 
         session = Session(domain, version, token)
-        shopify.ShopifyResource.activate_session(session)
+        shopify_api.ShopifyResource.activate_session(session)
         yield
-        shopify.ShopifyResource.activate_session(original_session)
+        shopify_api.ShopifyResource.activate_session(original_session)
 
     def __init__(self, shop_url, version=None, token=None):
         self.url = self.__prepare_url(shop_url)
@@ -131,7 +131,7 @@ class Session(object):
     def calculate_hmac(cls, params):
         """
         Calculate the HMAC of the given parameters in line with Shopify's rules for OAuth authentication.
-        See http://docs.shopify.com/api/authentication/oauth#verification.
+        See http://docs.shopify_api.com/api/authentication/oauth#verification.
         """
         encoded_params = cls.__encoded_params_for_signature(params)
         # Generate the hex digest for the sorted parameters using the secret.

@@ -1,5 +1,5 @@
 import json
-import shopify
+import shopify_api
 from test.test_helper import TestCase
 
 class ResourceFeedbackTest(TestCase):
@@ -7,7 +7,7 @@ class ResourceFeedbackTest(TestCase):
         body = json.dumps({ 'resource_feedback': [ { 'resource_type': 'Shop' } ] })
         self.fake('resource_feedback', method='GET', body=body)
 
-        feedback = shopify.ResourceFeedback.find()
+        feedback = shopify_api.ResourceFeedback.find()
 
         self.assertEqual('Shop', feedback[0].resource_type)
 
@@ -15,7 +15,7 @@ class ResourceFeedbackTest(TestCase):
         body = json.dumps({ 'resource_feedback': {} })
         self.fake('resource_feedback', method='POST', body=body, headers={ 'Content-Type': 'application/json' })
 
-        shopify.ResourceFeedback().save()
+        shopify_api.ResourceFeedback().save()
 
         self.assertEqual(body, self.http.request.data.decode("utf-8"))
 
@@ -23,7 +23,7 @@ class ResourceFeedbackTest(TestCase):
         body = json.dumps({ 'resource_feedback': [ { 'resource_type': 'Product' } ] })
         self.fake('products/42/resource_feedback', method='GET', body=body)
 
-        feedback = shopify.ResourceFeedback.find(product_id=42)
+        feedback = shopify_api.ResourceFeedback.find(product_id=42)
 
         self.assertEqual('Product', feedback[0].resource_type)
 
@@ -31,7 +31,7 @@ class ResourceFeedbackTest(TestCase):
         body = json.dumps({ 'resource_feedback': {} })
         self.fake('products/42/resource_feedback', method='POST', body=body, headers={ 'Content-Type': 'application/json' })
 
-        feedback = shopify.ResourceFeedback({'product_id':42})
+        feedback = shopify_api.ResourceFeedback({'product_id':42})
         feedback.save()
 
         self.assertEqual(body, self.http.request.data.decode("utf-8"))
