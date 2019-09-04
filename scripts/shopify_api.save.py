@@ -87,7 +87,7 @@ class TasksMeta(type):
 
 
 @six.add_metaclass(TasksMeta)
-class Tasks_(object):
+class Tasks(object):
     _shop_config_dir = os.path.join(os.environ["HOME"], ".shopify_api", "shops")
     _default_symlink = os.path.join(_shop_config_dir, "default")
     _default_api_version = "2019-04"
@@ -248,6 +248,6 @@ class Tasks_(object):
         raise ConfigFileError("There is no config file at " + filename)
 
 try:
-    Tasks_.run_task(*sys.argv[1:])
+    Tasks.run_task(*sys.argv[1:])
 except ConfigFileError as e:
     print(e)
